@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import Cart from "../models/CartModel";
 import CartItem from "../models/CartItemModel";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
+import GroceryItem from "../models/GroceryItemModel";
 
 export const addToCartController = async (
   req: Request,
@@ -74,7 +75,7 @@ export const deleteFromCartItem = async (
   }
 };
 export const bookOrder = async (req: Request, res: Response): Promise<void> => {
-  const id: string = req.body.cart_id; // Assuming id is passed as a route parameter
+  const id: string = req.body.cart_id;
 
   // Check if the cart item exists
   const existingItem = await Cart.findOne({
@@ -131,6 +132,84 @@ export const bookOrder = async (req: Request, res: Response): Promise<void> => {
 
     res.status(200).json({
       message: "Book Order successfully.",
+    });
+  } catch (error) {
+    console.error("Error deleting cart item:", error);
+    res.status(500).json({
+      message: "Internal server error.",
+    });
+  }
+};
+export const dispatchOrder = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const order_id: string = req.body.order_id;
+
+  // Check if the cart item exists
+  const existingItem = await Cart.findOne({
+    where: {
+      order_id: order_id,
+    },
+  });
+  if (!existingItem) {
+    res.status(404).json({
+      message: "Order not found.",
+    });
+    return;
+  }
+  try {
+    let findCartItems: any = await CartItem.findAll({
+      where: {
+        order_id,
+      },
+      include: {
+        model: GroceryItem,
+      },
+    });
+    let checkOfStockError = false;
+    for (const cartItem of findCartItems) {
+      if (cartItem.quantity > cartItem.grocery_item.stock) {
+        checkOfStockError = true;
+      }
+    }
+    if (checkOfStockError) {
+      res.status(400).json({
+        message: "Stock quantity is lesser than ordered quantity.",
+      });
+    }
+
+    let totalDispatchAmount = 0; // Initialize total order amount
+
+    for (const cartItem of findCartItems) {
+      const subtotal = cartItem.quantity * cartItem.price;
+      totalDispatchAmount += subtotal;
+    }
+    await Cart.update(
+      {
+        dispatch_amount: totalDispatchAmount,
+      },
+      {
+        where: {
+          order_id,
+        },
+      }
+    );
+    //for updating stock of grocery
+    for (const cartItem of findCartItems) {
+      const quantityToSubtract = cartItem.quantity;
+
+      await GroceryItem.update(
+        { stock: Sequelize.literal(`stock - ${quantityToSubtract}`) },
+        {
+          where: {
+            id: cartItem.grocery_item_id,
+          },
+        }
+      );
+    }
+    res.status(200).json({
+      message: "Order Dispacthed.",
     });
   } catch (error) {
     console.error("Error deleting cart item:", error);

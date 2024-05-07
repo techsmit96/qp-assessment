@@ -1,6 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import questionPro from "../config/db";
 import { CART_ITEMS } from "../config/tables";
+import GroceryItem from "./GroceryItemModel";
 
 const CartItems = questionPro.define(
   "cart_items",
@@ -47,5 +48,5 @@ const CartItems = questionPro.define(
     tableName: CART_ITEMS,
   }
 );
-
+CartItems.belongsTo(GroceryItem, { foreignKey: "grocery_item_id" });
 export default CartItems;

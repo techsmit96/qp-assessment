@@ -18,6 +18,10 @@ const GroceryItem = questionPro.define(
       type: DataTypes.DOUBLE(10, 2),
       allowNull: true,
     },
+    stock: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     creation_date: {
       type: DataTypes.INTEGER,
       defaultValue: Sequelize.literal("UNIX_TIMESTAMP()"),

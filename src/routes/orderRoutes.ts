@@ -3,6 +3,7 @@ import {
   addToCartController,
   deleteFromCartItem,
   bookOrder,
+  dispatchOrder,
 } from "../controllers/orderController";
 import { GlobalMiddleWare } from "../middlewares/GlobalMiddleWare";
 const router = Router();
@@ -24,6 +25,12 @@ router.post(
   GlobalMiddleWare.authenticate,
   GlobalMiddleWare.userAuth,
   bookOrder
+);
+router.post(
+  "/dispatch-order",
+  GlobalMiddleWare.authenticate,
+  GlobalMiddleWare.userAuth,
+  dispatchOrder
 );
 
 export default router;

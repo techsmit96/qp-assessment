@@ -22,6 +22,10 @@ const Cart = questionPro.define(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: true,
     },
+    dispatch_amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+    },
     creation_date: {
       type: DataTypes.INTEGER,
       defaultValue: Sequelize.literal("UNIX_TIMESTAMP()"),
