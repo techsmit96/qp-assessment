@@ -30,7 +30,6 @@ router.get(
 router.get(
   "/get-grocery-item-list",
   GlobalMiddleWare.authenticate,
-  GlobalMiddleWare.adminAuth,
   getGroceryItemList
 );
 router.delete(

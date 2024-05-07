@@ -10,6 +10,10 @@ const CartItems = questionPro.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    cart_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -24,6 +28,10 @@ const CartItems = questionPro.define(
     },
     price: {
       type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+    },
+    quantity: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     creation_date: {

@@ -33,8 +33,23 @@ export class GlobalMiddleWare {
   static async adminAuth(req, res, next) {
     try {
       let user = req.user;
-      console.log(user)
+      console.log(user);
       if (user.role_id == 2) {
+        next();
+      } else {
+        req.errorStatus = 401;
+        next(new Error("User not Authorised"));
+      }
+    } catch (e) {
+      req.errorStatus = 401;
+      next(e);
+    }
+  }
+  static async userAuth(req, res, next) {
+    try {
+      let user = req.user;
+      console.log(user);
+      if (user.role_id == 1) {
         next();
       } else {
         req.errorStatus = 401;
