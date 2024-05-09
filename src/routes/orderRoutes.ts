@@ -5,7 +5,7 @@ import {
   bookOrder,
   dispatchOrder,
 } from "../controllers/orderController";
-import { GlobalMiddleWare } from "../middlewares/GlobalMiddleWare";
+import { GlobalMiddleWare } from "../middlewares/GlobalMiddleware";
 const router = Router();
 
 router.post(

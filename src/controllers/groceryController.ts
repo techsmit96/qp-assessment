@@ -29,7 +29,6 @@ export const getGroceryItemById = async (req: Request, res: Response) => {
   }
   try {
     const data = await GroceryItem.findByPk(id);
-
     if (data) {
       res.status(200).json({
         message: "Item found.",

@@ -55,8 +55,8 @@ export const loginController = async (
       user,
     });
   } catch (e) {
-    // res.status(500).json({
-    //   message: "Internal server error.",
+    // res.status(401).json({
+    //   message: "Invalid user credentials.",
     // });
     next(e);
   }

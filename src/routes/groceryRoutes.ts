@@ -6,7 +6,7 @@ import {
   getGroceryItemList,
   updateGroceryItem,
 } from "../controllers/groceryController";
-import { GlobalMiddleWare } from "../middlewares/GlobalMiddleWare";
+import { GlobalMiddleWare } from "../middlewares/GlobalMiddleware";
 const router = Router();
 
 router.post(

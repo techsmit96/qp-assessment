@@ -6,7 +6,7 @@ import {
 } from "../controllers/authController";
 // import { registerController } from "../controllers/userConntroller";
 import { UserValidators } from "../validators/UserValidators";
-import { GlobalMiddleWare } from "../middlewares/GlobalMiddleWare";
+import { GlobalMiddleWare } from "../middlewares/GlobalMiddleware";
 
 const router = Router();
 
