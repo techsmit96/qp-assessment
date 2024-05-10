@@ -6,7 +6,7 @@
   "scripts": {
     "start-dev": "nodemon --exec ts-node src/index.ts",
     "create-bundle": "tsc && node dist/index.js",
-    "start": "node src/index.js",
+    "start": "node src/index.ts",
     "test": "jest"
   },
   "author": "",
